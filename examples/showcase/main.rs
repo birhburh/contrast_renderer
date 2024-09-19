@@ -1,3 +1,5 @@
+// WGPU_BACKEND="vulkan" cargo run --example showcase >& out.log
+
 #[path = "../application_framework.rs"]
 mod application_framework;
 

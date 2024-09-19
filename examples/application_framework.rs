@@ -121,7 +121,10 @@ impl ApplicationManager {
             .map(|()| log::set_max_level(log::LevelFilter::Info))
             .expect("Could not initialize logger");
 
-        let instance = wgpu::Instance::default();
+        let instance = wgpu::Instance::new(wgpu::InstanceDescriptor {
+            backends: wgpu::util::backend_bits_from_env().unwrap_or_default(),
+            ..Default::default()
+        });
         let size = window.inner_size();
         let surface = instance.create_surface(window.clone()).expect("WebGPU is not supported or not enabled");
         let adapter = instance
@@ -153,6 +156,7 @@ impl ApplicationManager {
                     label: None,
                     required_features: required_features | optional_features,
                     required_limits,
+                    memory_hints: wgpu::MemoryHints::MemoryUsage,
                 },
                 None,
             )
